@@ -1,18 +1,21 @@
 package com.generation.aplicativofitness.model;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.util.List;
 
 import org.hibernate.annotations.UpdateTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -35,7 +38,7 @@ public class Usuario {
 	private String foto;
 	
 	@UpdateTimestamp
-	private LocalDateTime data;
+	private LocalDate data;
 	
 	@NotNull (message = "O atributo Login é obrigatório!")
 	@Email (message = "O atributo Login deve ser um email válido!")
@@ -52,7 +55,11 @@ public class Usuario {
 	@NotNull (message = "Este campo é obrigatório!")
 	@Column (precision = 3, scale = 2)
 	private BigDecimal altura;
-
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "usuario", cascade = CascadeType.REMOVE)
+	@JsonIgnoreProperties ("usuario")
+	private List<Treino> treino;
+	
 	public Long getId() {
 		return id;
 	}
@@ -77,11 +84,11 @@ public class Usuario {
 		this.foto = foto;
 	}
 
-	public LocalDateTime getData() {
+	public LocalDate getData() {
 		return data;
 	}
 
-	public void setData(LocalDateTime data) {
+	public void setData(LocalDate data) {
 		this.data = data;
 	}
 
@@ -118,30 +125,12 @@ public class Usuario {
 	}
 	
 	
-	public Treino getTreino() {
-		return treino;
+	public List<Treino> getTreino() {
+		return this.treino;
 	}
 
-	public void setTreino(Treino treino) {
+	public void setPostagem(List<Treino> treino) {
 		this.treino = treino;
 	}
 
-	public TipoTreino getTipoTreino() {
-		return tipoTreino;
-	}
-
-	public void setTipoTreino(TipoTreino tipoTreino) {
-		this.tipoTreino = tipoTreino;
-	}
-
-
-	@ManyToOne
-	@JsonIgnoreProperties ("usuario")
-	private Treino treino;
-	
-	@ManyToOne
-	@JsonIgnoreProperties ("usuario")
-	private TipoTreino tipoTreino;
-	
-	
 }

@@ -1,8 +1,12 @@
 package com.generation.aplicativofitness.model;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -27,10 +31,10 @@ public class TipoTreino {
 	@Size(min = 10, max = 100, message = " O atributo Descricao  deve conter no mínimo 50 caracteres e no máximo 100 caracteres.")
 	private String descricao;
 	
-	/*
-	@OneToMany(fetchType.LAZY, mappedBy = "-----", cascade = CascadeType.REMOVE)
-	@JsonIgnoreProperties("----")*/
-	//private Xxxxx xxxxx
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tipoTreino", cascade = CascadeType.REMOVE)
+	@JsonIgnoreProperties("TipoTreino")
+	private List<Treino> treino;
 	
 	
 	public Long getId() {
@@ -57,12 +61,12 @@ public class TipoTreino {
 		this.descricao = descricao;
 	}
 
-	/*public Treino getTreino() {
+	public List<Treino> getTreino() {
 		return treino;
 	}
 
-	public void setTreino(Treino treino) {
+	public void setTreino(List<Treino> treino) {
 		this.treino = treino;
-	}*/
+	}
 
 }

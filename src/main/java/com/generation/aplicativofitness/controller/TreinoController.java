@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.generation.aplicativofitness.model.Treino;
+import com.generation.aplicativofitness.repository.TipoTreinoRepository;
 import com.generation.aplicativofitness.repository.TreinoRepository;
 
 import jakarta.validation.Valid;
@@ -30,7 +31,7 @@ public class TreinoController {
 	private TreinoRepository treinoRepository;
 
 	@Autowired
-	//private TipoTreinoRepository tipoTreinoRepository;
+	private TipoTreinoRepository tipoTreinoRepository;
 	
 	@GetMapping
 	public ResponseEntity<List<Treino>> getAll() {
@@ -54,11 +55,11 @@ public class TreinoController {
 	    
 		if (treino.getTipoTreino() == null || 
 	        !tipoTreinoRepository.existsById(treino.getTipoTreino().getId())) {
-	        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Tipo de Treino não existe!");
-	   
-	    return ResponseEntity.status(HttpStatus.CREATED).body(treinoRepository.save(treino));
+	        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Tipo de Treino não existe!");   	
+		}
+		 return ResponseEntity.status(HttpStatus.CREATED).body(treinoRepository.save(treino));
 	}
-
+	
 	@PutMapping
 	public ResponseEntity<Treino> put(@Valid @RequestBody Treino treino) {
 	    if (!treinoRepository.existsById(treino.getId())) {
@@ -67,11 +68,11 @@ public class TreinoController {
 	     
 	    if (treino.getTipoTreino() == null || 
 	        !tipoTreinoRepository.existsById(treino.getTipoTreino().getId())) {
-	        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Tipo de Treino não existe!");
+	        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Tipo de Treino não existe!");       
+	    }
 	    
 	    return ResponseEntity.status(HttpStatus.OK).body(treinoRepository.save(treino));
 	}
-
 	
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	@DeleteMapping("/{id}")
