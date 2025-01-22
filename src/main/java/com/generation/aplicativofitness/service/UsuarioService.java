@@ -2,6 +2,7 @@ package com.generation.aplicativofitness.service;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
+import java.math.RoundingMode;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,10 @@ public class UsuarioService{
 	            BigDecimal alturaSquared = altura.multiply(altura);
 	            BigDecimal imc = peso.divide(alturaSquared, MathContext.DECIMAL64);
 
-	            return Optional.of(imc);
+	            // Ajustar o IMC para ter 2 casas decimais
+	            BigDecimal imcComDuasCasas = imc.setScale(2, RoundingMode.HALF_UP);
+
+	            return Optional.of(imcComDuasCasas);
 	        }
 	    }
 
