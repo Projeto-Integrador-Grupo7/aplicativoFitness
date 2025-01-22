@@ -50,7 +50,7 @@ public class TreinoController {
 		return ResponseEntity.ok(treinoRepository.findAllByExerciciosContainingIgnoreCase(exercicios));
 	}
 	
-	@PostMapping
+	@PostMapping("/cadastrar")
 	public ResponseEntity<Treino> post(@Valid @RequestBody Treino treino) {
 	    
 		if (treino.getTipoTreino() == null || 
@@ -60,7 +60,7 @@ public class TreinoController {
 		 return ResponseEntity.status(HttpStatus.CREATED).body(treinoRepository.save(treino));
 	}
 	
-	@PutMapping
+	@PutMapping("/atualizar")
 	public ResponseEntity<Treino> put(@Valid @RequestBody Treino treino) {
 	    if (!treinoRepository.existsById(treino.getId())) {
 	        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
