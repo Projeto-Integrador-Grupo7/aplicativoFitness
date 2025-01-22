@@ -37,7 +37,8 @@ public class Usuario {
 	@Size (max = 500, message = "O link da foto não pode ser maior do que 255 caracteres.")
 	private String foto;
 	
-	@UpdateTimestamp
+	@NotNull(message = "A Data é obrigatório!")
+	@Column
 	private LocalDate data;
 	
 	@NotNull (message = "O atributo Login é obrigatório!")
