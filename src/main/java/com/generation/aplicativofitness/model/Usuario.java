@@ -132,7 +132,7 @@ public class Usuario {
 		return this.treino;
 	}
 
-	public void setPostagem(List<Treino> treino) {
+	public void setTreino(List<Treino> treino) {
 		this.treino = treino;
 	}
 
