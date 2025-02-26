@@ -18,56 +18,56 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.generation.aplicativofitness.model.TipoTreino;
-import com.generation.aplicativofitness.repository.TipoTreinoRepository;
+import com.generation.aplicativofitness.model.Tipo;
+import com.generation.aplicativofitness.repository.TipoRepository;
 
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/tipoTreino")
+@RequestMapping("/tipo")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
-public class TipoTreinoController {
+public class TipoController {
 
 	@Autowired
-	private TipoTreinoRepository tipoTreinoRepository;
+	private TipoRepository tipoRepository;
 
 	@GetMapping
-	public ResponseEntity<List<TipoTreino>> getAll() {
-		return ResponseEntity.ok(tipoTreinoRepository.findAll());
+	public ResponseEntity<List<Tipo>> getAll() {
+		return ResponseEntity.ok(tipoRepository.findAll());
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<TipoTreino> getById(@PathVariable Long id) {
-		return tipoTreinoRepository.findById(id).map(resposta -> ResponseEntity.ok(resposta))
+	public ResponseEntity<Tipo> getById(@PathVariable Long id) {
+		return tipoRepository.findById(id).map(resposta -> ResponseEntity.ok(resposta))
 				.orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
 	}
 
 	@GetMapping("/tipo/{tipo}")
-	public ResponseEntity<List<TipoTreino>> getByTipo(@PathVariable String tipo) {
-		return ResponseEntity.ok(tipoTreinoRepository.findAllByTipoContainingIgnoreCase(tipo));
+	public ResponseEntity<List<Tipo>> getByTipo(@PathVariable String tipo) {
+		return ResponseEntity.ok(tipoRepository.findAllByTipoContainingIgnoreCase(tipo));
 	}
 
 	@PostMapping("/cadastrar")
-	public ResponseEntity<TipoTreino> post(@Valid @RequestBody TipoTreino tipoTreino) {
-		return ResponseEntity.status(HttpStatus.CREATED).body(tipoTreinoRepository.save(tipoTreino));
+	public ResponseEntity<Tipo> post(@Valid @RequestBody Tipo tipo) {
+		return ResponseEntity.status(HttpStatus.CREATED).body(tipoRepository.save(tipo));
 	}
 
 	@PutMapping("/atualizar")
-	public ResponseEntity<TipoTreino> put(@Valid @RequestBody TipoTreino tipoTreino) {
-		return tipoTreinoRepository.findById(tipoTreino.getId())
-				.map(resposta -> ResponseEntity.status(HttpStatus.OK).body(tipoTreinoRepository.save(tipoTreino)))
+	public ResponseEntity<Tipo> put(@Valid @RequestBody Tipo tipo) {
+		return tipoRepository.findById(tipo.getId())
+				.map(resposta -> ResponseEntity.status(HttpStatus.OK).body(tipoRepository.save(tipo)))
 				.orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
 	}
 
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	@DeleteMapping("/{id}")
 	public void delete(@PathVariable Long id) {
-		Optional<TipoTreino> tipoTreino = tipoTreinoRepository.findById(id);
+		Optional<Tipo> tipo = tipoRepository.findById(id);
 
-		if (tipoTreino.isEmpty())
+		if (tipo.isEmpty())
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 
-		tipoTreinoRepository.deleteById(id);
+		tipoRepository.deleteById(id);
 	}
 
 }

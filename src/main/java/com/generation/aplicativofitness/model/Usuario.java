@@ -8,6 +8,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -41,6 +42,7 @@ public class Usuario {
 	@Column
 	private LocalDate data;
 	
+	@Schema(example = "email@email.com.br")
 	@NotNull (message = "O atributo Login é obrigatório!")
 	@Email (message = "O atributo Login deve ser um email válido!")
 	private String usuario;

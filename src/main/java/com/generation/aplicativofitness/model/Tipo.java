@@ -16,8 +16,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 @Entity
-@Table(name = "tb_tipo_treino")
-public class TipoTreino {
+@Table(name = "tb_tipo")
+public class Tipo {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,8 +32,8 @@ public class TipoTreino {
 	private String descricao;
 	
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tipoTreino", cascade = CascadeType.REMOVE)
-	@JsonIgnoreProperties("TipoTreino")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tipo", cascade = CascadeType.REMOVE)
+	@JsonIgnoreProperties("Tipo")
 	private List<Treino> treino;
 	
 	

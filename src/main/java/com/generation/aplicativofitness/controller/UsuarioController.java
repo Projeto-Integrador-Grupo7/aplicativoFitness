@@ -79,7 +79,7 @@ public class UsuarioController {
 	}
 	
 	@GetMapping("/imc/{id}")
-	public ResponseEntity<BigDecimal> calcularIMC(@Valid @PathVariable Long id) {
+	public ResponseEntity<String> calcularIMC(@Valid @PathVariable Long id) {
 		
 		return usuarioService.calcularIMC(id)
 				.map(resposta -> ResponseEntity.status(HttpStatus.OK).body(resposta))

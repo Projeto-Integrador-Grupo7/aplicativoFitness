@@ -36,7 +36,7 @@ public class Treino {
 
     @ManyToOne
     @JsonIgnoreProperties("treino")
-    private TipoTreino tipoTreino;
+    private Tipo tipo;
 
     @ManyToOne
     @JsonIgnoreProperties("treino")
@@ -84,12 +84,12 @@ public class Treino {
     }
 
     
-    public TipoTreino getTipoTreino() {
-        return tipoTreino;
+    public Tipo getTipo() {
+        return tipo;
     }
 
-    public void setTipoTreino(TipoTreino tipoTreino) {
-        this.tipoTreino = tipoTreino;
+    public void setTipo(Tipo tipo) {
+        this.tipo = tipo;
     }
 
     public Usuario getUsuario() {

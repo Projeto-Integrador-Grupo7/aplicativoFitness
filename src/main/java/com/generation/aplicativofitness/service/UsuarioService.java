@@ -19,27 +19,41 @@ public class UsuarioService{
 	@Autowired
 	private UsuarioRepository usuarioRepository;
 	
-	public Optional<BigDecimal> calcularIMC(Long id) {
+	public Optional<String> calcularIMC(Long id) {
 	    Optional<Usuario> usuario = usuarioRepository.findById(id);
 
 	    if (usuario.isPresent()) {
 	        BigDecimal peso = usuario.get().getPeso();
 	        BigDecimal altura = usuario.get().getAltura();
+	        String categoria;
 
 	        // Garantir que peso e altura sejam maiores que zero
 	        if (peso.compareTo(BigDecimal.ZERO) > 0 && altura.compareTo(BigDecimal.ZERO) > 0) {
 	            BigDecimal alturaSquared = altura.multiply(altura);
 	            BigDecimal imc = peso.divide(alturaSquared, MathContext.DECIMAL64);
-
-	            // Ajustar o IMC para ter 2 casas decimais
 	            BigDecimal imcComDuasCasas = imc.setScale(2, RoundingMode.HALF_UP);
+	            
+	            if (imc.compareTo(new BigDecimal("18.5")) < 0) {
+	                categoria = "Abaixo do peso";
+	            } else if (imc.compareTo(new BigDecimal("24.9")) <= 0) {
+	                categoria = "Peso normal";
+	            } else if (imc.compareTo(new BigDecimal("29.9")) <= 0) {
+	                categoria = "Sobrepeso";
+	            } else {
+	               categoria = "Obesidade";
+	            }
+	            
+	            // Ajustar o IMC para ter 2 casas decimais
 
-	            return Optional.of(imcComDuasCasas);
+	            String resultado = "IMC: " + imcComDuasCasas + " - " + categoria;
+	            System.out.println(resultado);
+
+	            return Optional.of(resultado);
 	        }
 	    }
 
 	    return Optional.empty();
-	}
+	} 
 	
 	public Optional<Usuario> cadastrarUsuario(Usuario usuario) {
 

@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.generation.aplicativofitness.model.Treino;
-import com.generation.aplicativofitness.repository.TipoTreinoRepository;
+import com.generation.aplicativofitness.repository.TipoRepository;
 import com.generation.aplicativofitness.repository.TreinoRepository;
 
 import jakarta.validation.Valid;
@@ -31,7 +31,7 @@ public class TreinoController {
 	private TreinoRepository treinoRepository;
 
 	@Autowired
-	private TipoTreinoRepository tipoTreinoRepository;
+	private TipoRepository tipoRepository;
 	
 	@GetMapping
 	public ResponseEntity<List<Treino>> getAll() {
@@ -53,8 +53,8 @@ public class TreinoController {
 	@PostMapping("/cadastrar")
 	public ResponseEntity<Treino> post(@Valid @RequestBody Treino treino) {
 	    
-		if (treino.getTipoTreino() == null || 
-	        !tipoTreinoRepository.existsById(treino.getTipoTreino().getId())) {
+		if (treino.getTipo() == null || 
+	        !tipoRepository.existsById(treino.getTipo().getId())) {
 	        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Tipo de Treino não existe!");   	
 		}
 		 return ResponseEntity.status(HttpStatus.CREATED).body(treinoRepository.save(treino));
@@ -66,8 +66,8 @@ public class TreinoController {
 	        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 	    }
 	     
-	    if (treino.getTipoTreino() == null || 
-	        !tipoTreinoRepository.existsById(treino.getTipoTreino().getId())) {
+	    if (treino.getTipo() == null || 
+	        !tipoRepository.existsById(treino.getTipo().getId())) {
 	        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Tipo de Treino não existe!");       
 	    }
 	    
